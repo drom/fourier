@@ -22,7 +22,7 @@ describe('DFT 1024', function () {
 
     it('zero', function (done) {
 
-        res = lib.dftComplex(inpReal, inpImag);
+        res = lib.dft(inpReal, inpImag);
 
         expect(res[0]).to.be.an('array');
         expect(res[1]).to.be.an('array');
@@ -34,7 +34,7 @@ describe('DFT 1024', function () {
     it('DC = 1', function (done) {
         inpReal[0] = 1;
 
-        res = lib.dftComplex(inpReal, inpImag);
+        res = lib.dft(inpReal, inpImag);
 
         expect(res[0].reduce(add, 0)).to.be.equal(len);
         expect(res[1].reduce(add, 0)).to.be.equal(0);
@@ -53,7 +53,7 @@ describe('DFT 1024', function () {
             0.86183
         ];
 
-        res = lib.dftComplex(inpReal, inpImag);
+        res = lib.dft(inpReal, inpImag);
 
         expect(res[0]).to.be.eql([
             4.46455,
