@@ -2,6 +2,8 @@
 
 ## Fourier transform
 
+http://en.wikipedia.org/wiki/Discrete_Fourier_transform
+
 ### Install
 
 ```
