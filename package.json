@@ -1,0 +1,21 @@
+{
+  "name": "fourier",
+  "version": "0.0.1",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "drom",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "*",
+    "grunt": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-eslint": "*",
+    "grunt-mocha-istanbul": "*",
+    "grunt-mocha-test": "*",
+    "istanbul": "*",
+    "mocha": "*"
+  }
+}
