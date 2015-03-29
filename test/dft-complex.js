@@ -9,6 +9,14 @@ describe('DFT 1024', function () {
         inpImag,
         res,
         len = 1024,
+        roundArray = function (arr, precision) {
+            var ret = [];
+            precision = precision || 100000;
+            arr.forEach(function (e) {
+                ret.push(Math.round(e * precision) / precision);
+            });
+            return ret;
+        },
         add = function (a, b) { return a + b; };
 
     before(function () {
@@ -43,38 +51,38 @@ describe('DFT 1024', function () {
 
     it('random 8', function (done) {
         inpReal = [
-            0.27984,
-            0.57953,
-            0.46401,
-            0.35479,
-            0.57387,
-            0.83437,
-            0.51631,
-            0.86183
+            0.24971,
+            0.62419,
+            0.52696,
+            0.17905,
+            0.75235,
+            0.42635,
+            0.49530,
+            0.72413
         ];
 
         res = lib.dft(inpReal, inpImag);
 
-        expect(res[0]).to.be.eql([
-            4.46455,
-            -0.11569766978475315,
-            -0.12661000000000014,
-            -0.4723623302152477,
-            -0.7964899999999999,
-            -0.4723623302152478,
-            -0.1266100000000027,
-            -0.11569766978474949
+        expect(roundArray(res[0])).to.be.eql([
+            3.97804,
+            0.02268,
+            -0.0202,
+            -1.02796,
+            0.0706,
+            -1.02796,
+            -0.0202,
+            0.02268
         ]);
 
-        expect(res[1]).to.be.eql([
-            0,
-            0.5910305144504069,
-            -0.19728000000000023,
-            0.4864305144504075,
-            -6.768867788247251e-16,
-            -0.4864305144504081,
-            0.19727999999999957,
-            -0.5910305144504059
+        expect(roundArray(res[1])).to.be.eql([
+            0.00000,
+            0.21388,
+            -0.14736,
+            0.27720,
+            -0.00000,
+            -0.27720,
+            0.14736,
+            -0.21388
         ]);
         done();
     });
