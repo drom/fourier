@@ -87,4 +87,24 @@ describe('DFT 1024', function () {
         done();
     });
 
+    it('inverse', function (done) {
+        inpReal = [
+            0.24971,
+            0.62419,
+            0.52696,
+            0.17905,
+            0.75235,
+            0.42635,
+            0.49530,
+            0.72413
+        ];
+
+        res = lib.dft(inpReal, inpImag);
+        res = lib.idft(res[0], res[1]);
+
+        expect(roundArray(res[0])).to.be.eql(inpReal);
+        expect(roundArray(res[1]).reduce(add, 0)).to.be.equal(0);
+        done();
+    });
+
 });
