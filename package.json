@@ -1,7 +1,7 @@
 {
   "name": "fourier",
   "version": "0.0.5",
-  "description": "",
+  "description": "Discrete Fourier Transform library",
   "main": "lib/index.js",
   "scripts": {
     "benchmark": "node bin/benchmark.js",
