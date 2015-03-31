@@ -1,10 +1,11 @@
 {
   "name": "fourier",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "test": "grunt"
+    "benchmark": "node bin/benchmark.js",
+    "test": "grunt ; node bin/benchmark.js"
   },
   "keywords": [
     "fourier"
@@ -12,6 +13,7 @@
   "author": "drom",
   "license": "MIT",
   "devDependencies": {
+    "benchmark": "*",
     "chai": "*",
     "grunt": "*",
     "grunt-cli": "*",
@@ -20,6 +22,7 @@
     "grunt-mocha-istanbul": "*",
     "grunt-mocha-test": "*",
     "istanbul": "*",
+    "microtime": "*",
     "mocha": "*"
   }
 }
