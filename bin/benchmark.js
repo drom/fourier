@@ -21,13 +21,11 @@ function init (N) {
     };
 }
 
-function initDouble (N) {
+function initType (N, Type) {
     return function () {
         var i;
-        var reRaw = new ArrayBuffer(8 * N);
-        var imRaw = new ArrayBuffer(8 * N);
-        re = new Float64Array(reRaw);
-        im = new Float64Array(imRaw);
+        re = new Type(N);
+        im = new Type(N);
         for (i = 0; i < N; i++) {
             re[i] = Math.random();
             im[i] = Math.random();
@@ -35,22 +33,34 @@ function initDouble (N) {
     };
 }
 
-function fftDitRadix2 () { fourier.fftDitRadix2(re, im); }
-
-function fftDitRadix2Double () { fourier.fftDitRadix2Double(re, im); }
+function fft () {
+    var fn = fourier.fft();
+    return function () {
+        fn(re, im);
+    };
+}
 
 for (j = 16; j <= Math.pow(2, 17); j *= 2) {
-    suite.add('fft' + j, {
-        onStart: init(j),
-        fn: fftDitRadix2
+    suite.add('fft-single-' + j, {
+        onStart: initType(j, Float32Array),
+        fn: fft()
     });
 }
+
 for (j = 16; j <= Math.pow(2, 17); j *= 2) {
     suite.add('fft-double-' + j, {
-        onStart: initDouble(j),
-        fn: fftDitRadix2Double
+        onStart: initType(j, Float64Array),
+        fn: fft()
     });
 }
+
+for (j = 16; j <= Math.pow(2, 17); j *= 2) {
+    suite.add('fft-simple-' + j, {
+        onStart: init(j),
+        fn: fft()
+    });
+}
+
 suite
     .on('cycle', function (event) {
         console.log(String(event.target));

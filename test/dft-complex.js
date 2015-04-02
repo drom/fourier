@@ -8,16 +8,27 @@ describe('DFT 4096', function () {
         inpReal,
         inpImag,
         len = 4096,
-        roundArray = function (arr, precision) {
-            var j,
-                jlen,
-                ret = [];
+        compare = function (a, b, label) {
+            var i,
+                err = 0;
 
-            precision = precision || 100000;
-            for (j = 0; j < jlen; j++) {
-                ret.push(Math.round(arr[j] * precision) / precision);
+            expect(a.length, label + 'length').to.be.equal(b.length);
+
+            label += ' error:';
+            for (i = 0; i < a.length; i++) {
+                if (isNaN(a[i])) {
+                    console.log(a);
+                    return;
+                }
+                if (isNaN(b[i])) {
+                    console.log(b);
+                    return;
+                }
+                err += Math.abs(a[i] - b[i]);
             }
-            return ret;
+            err /= a.length;
+            console.log(label, err);
+            expect(err, label).to.be.at.most(0.0000001);
         },
         add = function (a, b) { return a + b; };
 
@@ -52,16 +63,12 @@ describe('DFT 4096', function () {
 
         res = lib.idft(inpReal, inpImag);
 
-        expect(res[0]).to.be.an('array');
-        expect(res[1]).to.be.an('array');
-        expect(res[0].reduce(add, 0)).to.be.equal(0);
-        expect(res[1].reduce(add, 0)).to.be.equal(0);
+        compare(res[0], inpReal, 'real');
+        compare(res[1], inpImag, 'imag');
         done();
     });
 
     it('fft, zeros', function (done) {
-        var res;
-
         inpReal = [];
         inpImag = [];
         for (i = 0; i < len; i++) {
@@ -71,8 +78,6 @@ describe('DFT 4096', function () {
 
         lib.fft(inpReal, inpImag);
 
-        expect(inpReal).to.be.an('array');
-        expect(inpImag).to.be.an('array');
         expect(inpReal.reduce(add, 0)).to.be.equal(0);
         expect(inpImag.reduce(add, 0)).to.be.equal(0);
         done();
@@ -103,8 +108,8 @@ describe('DFT 4096', function () {
         res = lib.dft(inpReal, inpImag);
         res = lib.idft(res[0], res[1]);
 
-        expect(roundArray(res[0])).to.be.eql(roundArray(inpReal));
-        expect(roundArray(res[1])).to.be.eql(roundArray(inpImag));
+        compare(res[0], inpReal, 'real');
+        compare(res[1], inpImag, 'imag');
         done();
     });
 
@@ -121,47 +126,61 @@ describe('DFT 4096', function () {
             res[1].push(inpImag[i]);
         }
 
-        lib.fft(res[0], res[1]);
+        lib.fft()(res[0], res[1]);
         res = lib.idft(res[0], res[1]);
 
-        expect(roundArray(res[0])).to.be.eql(roundArray(inpReal));
-        expect(roundArray(res[1])).to.be.eql(roundArray(inpImag));
+        compare(res[0], inpReal, 'real');
+        compare(res[1], inpImag, 'imag');
         done();
     });
 
     it('random fft-double vs. idft-double', function (done) {
-        var refRealRaw,
-            refImagRaw,
-            refReal,
+        var refReal,
             refImag,
-            realRaw,
-            imagRaw,
             real,
             imag,
             res;
 
-        refRealRaw = new ArrayBuffer(8 * len);
-        refReal = new Float64Array(refRealRaw);
-
-        refImagRaw = new ArrayBuffer(8 * len);
-        refImag = new Float64Array(refImagRaw);
-
-        realRaw = new ArrayBuffer(8 * len);
-        real = new Float64Array(realRaw);
-
-        imagRaw = new ArrayBuffer(8 * len);
-        imag = new Float64Array(imagRaw);
+        refReal = new Float64Array(len);
+        refImag = new Float64Array(len);
+        real = new Float64Array(len);
+        imag = new Float64Array(len);
 
         for (i = 0; i < len; i++) {
-            real[i] = refReal[i] = 100 * Math.random();
-            imag[i] = refImag[i] = 100 * Math.random();
+            real[i] = refReal[i] = Math.random() - 0.5;
+            imag[i] = refImag[i] = Math.random() - 0.5;
         }
 
-        lib.fftDitRadix2Double(real, imag); // in-place
-        res = lib.idftSimpleDouble(real, imag);
+        lib.fft()(real, imag); // in-place
+        res = lib.idft(real, imag);
 
-        expect(roundArray(res[0])).to.be.eql(roundArray(refReal));
-        expect(roundArray(res[1])).to.be.eql(roundArray(refImag));
+        compare(res[0], refReal, 'real');
+        compare(res[1], refImag, 'imag');
+        done();
+    });
+
+    it('random fft-single vs. idft-double', function (done) {
+        var refReal,
+            refImag,
+            real,
+            imag,
+            res;
+
+        refReal = new Float32Array(len);
+        refImag = new Float32Array(len);
+        real = new Float32Array(len);
+        imag = new Float32Array(len);
+
+        for (i = 0; i < len; i++) {
+            real[i] = refReal[i] = Math.random() - 0.5;
+            imag[i] = refImag[i] = Math.random() - 0.5;
+        }
+
+        lib.fft()(real, imag); // in-place
+        res = lib.idft(real, imag);
+
+        compare(res[0], refReal, 'real');
+        compare(res[1], refImag, 'imag');
         done();
     });
 });
