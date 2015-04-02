@@ -5,9 +5,7 @@
 [![NPM](https://badge.fury.io/js/fourier.svg)](http://badge.fury.io/js/fourier)
 
 
-JavaScript library of vector transformations.
-
-http://en.wikipedia.org/wiki/Discrete_Fourier_transform
+Pure JavaScript library discrete transforms, including [Discrete Fourier Transform](http://en.wikipedia.org/wiki/Discrete_Fourier_transform) (DFT); It's fast, inverse, and special forms.
 
 ### dft()
 
