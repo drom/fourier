@@ -7,21 +7,30 @@
 
 Pure JavaScript library discrete transforms, including [Discrete Fourier Transform](http://en.wikipedia.org/wiki/Discrete_Fourier_transform) (DFT); It's fast, inverse, and special forms.
 
+### Use
+
+Install from `npm`
+
+```
+npm i fourier --save
+```
+
+```javascript
+var fourier = require('fourier');
+```
+
 ### dft()
 
 ```javascript
-
 fourier.dft(realArray, imagArray); // ⇒ [realArray, imagArray]
-
 ```
+
 <a href="http://www.codecogs.com/eqnedit.php?latex=X_k=\sum_{n=0}^{N-1}x_n\cdot&space;e^{-i&space;2&space;\pi&space;k&space;n/N}" target="_blank"><img src="http://latex.codecogs.com/svg.latex?X_k=\sum_{n=0}^{N-1}x_n\cdot&space;e^{-i&space;2&space;\pi&space;k&space;n/N}" title="X_k=\sum_{n=0}^{N-1}x_n\cdot e^{-i 2 \pi k n/N}" /></a>
 
 ### idft()
 
 ```javascript
-
 fourier.idft(realArray, imagArray); // ⇒ [realArray, imagArray]
-
 ```
 <a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;x_n=\frac{1}{N}\sum_{k=0}^{N-1}X_k\cdot&space;e^{i&space;2&space;\pi&space;kn/N}" target="_blank"><img src="http://latex.codecogs.com/svg.latex?\large&space;x_n=\frac{1}{N}\sum_{k=0}^{N-1}X_k\cdot&space;e^{i&space;2&space;\pi&space;kn/N}" title="\large x_n=\frac{1}{N}\sum_{k=0}^{N-1}X_k\cdot e^{i 2 \pi kn/N}" /></a>
 
@@ -35,20 +44,7 @@ fourier.fft(realArray, imagArray); // in-place
 
 ```
 
-### Install
 
-```
-npm i fourier --save
-```
-
-### Usage
-
-```javascript
-var fourier = require('fourier');
-
-var y = fourier.dft([0, 1, 2, 3], [0, 0, 0, 0]);
-var z = fourier.idft(y[0], y[1]);
-```
 
 ### Testing
 
