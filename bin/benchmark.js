@@ -40,22 +40,22 @@ function fft () {
     };
 }
 
-for (j = 16; j <= Math.pow(2, 17); j *= 2) {
+for (j = 16; j <= Math.pow(2, 19); j *= 2) {
     suite.add('fft-single-' + j, {
         onStart: initType(j, Float32Array),
         fn: fft()
     });
 }
 
-for (j = 16; j <= Math.pow(2, 17); j *= 2) {
+for (j = 16; j <= Math.pow(2, 19); j *= 2) {
     suite.add('fft-double-' + j, {
         onStart: initType(j, Float64Array),
         fn: fft()
     });
 }
 
-for (j = 16; j <= Math.pow(2, 17); j *= 2) {
-    suite.add('fft-simple-' + j, {
+for (j = 16; j <= Math.pow(2, 19); j *= 2) {
+    suite.add('fft-' + j, {
         onStart: init(j),
         fn: fft()
     });
