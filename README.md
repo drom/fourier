@@ -1,9 +1,11 @@
+## Fourier
 [![Fourier](http://upload.wikimedia.org/wikipedia/commons/4/49/Joseph_Fourier_%28circa_1820%29.jpg)](http://en.wikipedia.org/wiki/Joseph_Fourier)
 
 [![Travis](https://travis-ci.org/drom/fourier.svg)](https://travis-ci.org/drom/fourier)
 [![NPM](https://badge.fury.io/js/fourier.svg)](http://badge.fury.io/js/fourier)
 
-## Discrete Fourier Transform
+
+JavaScript library of vector transformations.
 
 http://en.wikipedia.org/wiki/Discrete_Fourier_transform
 
