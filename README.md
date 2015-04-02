@@ -1,5 +1,5 @@
 # Fourier
-<img style="float: right" src="http://upload.wikimedia.org/wikipedia/commons/4/49/Joseph_Fourier_%28circa_1820%29.jpg">
+<span><img style="float:right" src="http://upload.wikimedia.org/wikipedia/commons/4/49/Joseph_Fourier_%28circa_1820%29.jpg"/></span>
 
 [![Travis](https://travis-ci.org/drom/fourier.svg)](https://travis-ci.org/drom/fourier)
 [![NPM](https://badge.fury.io/js/fourier.svg)](http://badge.fury.io/js/fourier)
