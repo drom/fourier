@@ -16,6 +16,12 @@ module.exports = function(grunt) {
                 src: ['test/*.js']
             }
         },
+        browserify: {
+            client: {
+                src: ['./bin/benchmark.js'],
+                dest: 'build/benchmark.js'
+            }
+        },
         mocha_istanbul: {
             coverage: {
                 src: 'test',
@@ -76,10 +82,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-mocha-istanbul');
+    grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
     // Default task(s).
     grunt.registerTask('mocha', ['mochaTest']);
     grunt.registerTask('coverage', ['mocha_istanbul:coverage']);
-    grunt.registerTask('default', ['eslint', 'mocha']);
+    grunt.registerTask('default', ['eslint', 'mocha', 'browserify']);
 };

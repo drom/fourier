@@ -16,6 +16,7 @@
     "benchmark": "*",
     "chai": "*",
     "grunt": "*",
+    "grunt-browserify": "*",
     "grunt-cli": "*",
     "grunt-contrib-clean": "*",
     "grunt-eslint": "*",
