@@ -1,6 +1,6 @@
 {
   "name": "fourier",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Discrete Fourier Transform library",
   "main": "lib/index.js",
   "scripts": {
@@ -24,6 +24,11 @@
     "grunt-mocha-test": "*",
     "istanbul": "*",
     "microtime": "*",
-    "mocha": "*"
+    "mocha": "*",
+    "shift-codegen": "*",
+    "shift-traverse": "^1.0.1"
+  },
+  "dependencies": {
+    "lodash": "^3.6.0"
   }
 }
