@@ -1,12 +1,16 @@
 'use strict';
 
 var lib = require('../lib'),
+    fft = require('../lib/fft-custom'),
     expect = require('chai').expect;
 
 describe('DFT 4096', function () {
     var i,
         inpReal,
         inpImag,
+        fn,
+        stdlib,
+        heap,
         len = 4096,
         compare = function (a, b, label) {
             var i,
@@ -31,6 +35,16 @@ describe('DFT 4096', function () {
             expect(err, label).to.be.at.most(0.0000001);
         },
         add = function (a, b) { return a + b; };
+
+        if (typeof window === 'undefined') {
+            stdlib = {
+                Math: Math,
+                Float64Array: Float64Array,
+                Float32Array: Float32Array
+            };
+        } else {
+            stdlib = window;
+        }
 
     it('dft, zeros', function (done) {
         var res;
@@ -134,7 +148,7 @@ describe('DFT 4096', function () {
         done();
     });
 
-    it('random fft-double vs. idft-double', function (done) {
+    it('random fft-f64 vs. idft-double', function (done) {
         var refReal,
             refImag,
             real,
@@ -151,7 +165,19 @@ describe('DFT 4096', function () {
             imag[i] = refImag[i] = Math.random() - 0.5;
         }
 
-        lib.fft()(real, imag); // in-place
+        heap = fft.alloc(len, 3);
+
+        fn = fft['fft_f64_' + len](stdlib, null, heap);
+        fn.init();
+
+        fft.array2heap(real, new Float64Array(heap), len, 0);
+        fft.array2heap(imag, new Float64Array(heap), len, len);
+
+        fn.transform();
+
+        fft.heap2array(new Float64Array(heap), real, len, 0);
+        fft.heap2array(new Float64Array(heap), imag, len, len);
+
         res = lib.idft(real, imag);
 
         compare(res[0], refReal, 'real');
@@ -159,7 +185,7 @@ describe('DFT 4096', function () {
         done();
     });
 
-    it('random fft-single vs. idft-double', function (done) {
+    it('random fft-32 vs. idft-double', function (done) {
         var refReal,
             refImag,
             real,
@@ -176,11 +202,24 @@ describe('DFT 4096', function () {
             imag[i] = refImag[i] = Math.random() - 0.5;
         }
 
-        lib.fft()(real, imag); // in-place
+        heap = fft.alloc(len, 3);
+
+        fn = fft['fft_f32_' + len](stdlib, null, heap);
+        fn.init();
+
+        fft.array2heap(real, new Float32Array(heap), len, 0);
+        fft.array2heap(imag, new Float32Array(heap), len, len);
+
+        fn.transform();
+
+        fft.heap2array(new Float32Array(heap), real, len, 0);
+        fft.heap2array(new Float32Array(heap), imag, len, len);
+
         res = lib.idft(real, imag);
 
         compare(res[0], refReal, 'real');
         compare(res[1], refImag, 'imag');
         done();
     });
+
 });

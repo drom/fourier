@@ -1,25 +1,43 @@
 #!/usr/bin/env node
 
+(function () {
+
 'use strict';
 
 var Benchmark = require('benchmark'),
-    fft = require('../lib/fft-custom.js');
+    fft = require('../lib/fft-custom');
 
-var suite = new Benchmark.Suite;
+var suite,
+    re,
+    im,
+    j,
+    stdlib,
+    heap,
+    fn;
 
-var re, im, j, fn = fft();
+suite = new Benchmark.Suite;
 
-function init (N) {
-    return function () {
-        var i;
-        re = [];
-        im = [];
-        for (i = 0; i < N; i++) {
-            re.push(Math.random());
-            im.push(Math.random());
-        }
+if (typeof window === 'undefined') {
+    stdlib = {
+        Math: Math,
+        Float32Array: Float32Array,
+        Float64Array: Float64Array
     };
+} else {
+    stdlib = window;
 }
+
+// function init (N) {
+//     return function () {
+//         var i;
+//         re = [];
+//         im = [];
+//         for (i = 0; i < N; i++) {
+//             re.push(Math.random());
+//             im.push(Math.random());
+//         }
+//     };
+// }
 
 function initType (N, Type) {
     return function () {
@@ -34,34 +52,44 @@ function initType (N, Type) {
 }
 
 for (j = 16; j <= Math.pow(2, 19); j *= 2) {
-    suite.add('fft-single-' + j, {
-        onStart: initType(j, Float32Array),
-        fn: (function (N) {
-            return function () { fn['fft' + N](re, im); };
-        })(j)
+    suite.add('fft_f32_' + j, {
+        onStart: (function (size) {
+            return function () {
+                heap = fft.alloc(size, 2);
+                fn = fft['fft_f32_' + size](stdlib, null, heap);
+                fn.init();
+            };
+        })(j),
+        fn: function () { fn.transform(); }
     });
 }
 
 for (j = 16; j <= Math.pow(2, 19); j *= 2) {
-    suite.add('fft-double-' + j, {
-        onStart: initType(j, Float64Array),
-        fn: (function (N) {
-            return function () { fn['fft' + N](re, im); };
-        })(j)
+    suite.add('fft_f64_' + j, {
+        onStart: (function (size) {
+            return function () {
+                heap = fft.alloc(size, 3);
+                fn = fft['fft_f64_' + size](stdlib, null, heap);
+                fn.init();
+            };
+        })(j),
+        fn: function () { fn.transform(); }
     });
 }
 
-for (j = 16; j <= Math.pow(2, 19); j *= 2) {
-    suite.add('fft-' + j, {
-        onStart: init(j),
-        fn: (function (N) {
-            return function () { fn['fft' + N](re, im); };
-        })(j)
-    });
-}
+// for (j = 16; j <= Math.pow(2, 9); j *= 2) {
+//     suite.add('fft-' + j, {
+//         onStart: init(j),
+//         fn: (function (N) {
+//             return function () { fn['fft' + N](re, im); };
+//         })(j)
+//     });
+// }
 
 suite
     .on('cycle', function (event) {
         console.log(String(event.target));
     })
-    .run({ async: true });
+    .run({ async: false });
+
+})();
