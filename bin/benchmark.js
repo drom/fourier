@@ -23,6 +23,9 @@ if (typeof window === 'undefined') {
         Float32Array: Float32Array,
         Float64Array: Float64Array
     };
+    if (stdlib.Math.fround === undefined) {
+        stdlib.Math.fround = function (n) { return n; };
+    }
 } else {
     stdlib = window;
 }
