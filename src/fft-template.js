@@ -37,6 +37,8 @@ exports.heap2array = function (arr, output, size, offset) {
 [2, 3].forEach(function (log2base) {
     var base = 1 << log2base;
     var bitbase = 8 * base;
+    var F = (log2base === 3) ? '+' : 'fround';
+    var Z = (log2base === 3) ? '0.0' : 'fround(0.0)';
     for (i = min; i <= max; i++) {
         N = Math.pow(2, i);
         Nh = N / 2;
@@ -46,6 +48,7 @@ exports.fft_f<%= bitbase + '_' + N %> = function (stdlib, foreign, buffer) {
     'use asm';
 
     var sin = stdlib.Math.sin,
+<% if (log2base === 2) { %>        fround = stdlib.Math.fround,<% } %>
         data = new stdlib.Float<%= bitbase %>Array(buffer),
         twoPiByN = <%= 2 * Math.PI / N %>;
 
@@ -70,14 +73,17 @@ exports.fft_f<%= bitbase + '_' + N %> = function (stdlib, foreign, buffer) {
             s2 = (s2 + <%= base %>) | 0;
             s3 = (s3 - <%= base %>) | 0;
             s4 = (s4 + <%= base %>) | 0;
-            tmp = +sin(
-                +(twoPiByN * +((i + 0) | 0))
+            tmp = sin(
+                +(
+                    +(twoPiByN) *
+                    +((i + 0) | 0)
+                )
             );
-            data[s0 >> <%= log2base %>] = +tmp;
-            data[s1 >> <%= log2base %>] = +tmp;
-            data[s4 >> <%= log2base %>] = +tmp;
-            data[s2 >> <%= log2base %>] = -tmp;
-            data[s3 >> <%= log2base %>] = -tmp;
+            data[s0 >> <%= log2base %>] = <%= F %>(tmp);
+            data[s1 >> <%= log2base %>] = <%= F %>(tmp);
+            data[s4 >> <%= log2base %>] = <%= F %>(tmp);
+            data[s2 >> <%= log2base %>] = <%= F %>(-tmp);
+            data[s3 >> <%= log2base %>] = <%= F %>(-tmp);
         }
     }
 
@@ -91,14 +97,14 @@ exports.fft_f<%= bitbase + '_' + N %> = function (stdlib, foreign, buffer) {
             jh = 0,
             step = 0,
             width = 0,
-            sink = 0.0,
-            sinkNq = 0.0,
-            realj = 0.0,
-            imagj = 0.0,
-            realjh = 0.0,
-            imagjh = 0.0,
-            tmpReal = 0.0,
-            tmpImag = 0.0;
+            sink = <%= Z %>,
+            sinkNq = <%= Z %>,
+            realj = <%= Z %>,
+            imagj = <%= Z %>,
+            realjh = <%= Z %>,
+            imagjh = <%= Z %>,
+            tmpReal = <%= Z %>,
+            tmpImag = <%= Z %>;
 
         // element permutation
         for (i = 0; (i | 0) < <%= base * N %>; i = (i + <%= base %>) | 0) {
@@ -113,13 +119,13 @@ exports.fft_f<%= bitbase + '_' + N %> = function (stdlib, foreign, buffer) {
             j = j << <%= log2base %>;
             if ((j | 0) > (i | 0)) {
 
-                tmpReal = +data[i >> <%= log2base %>];
-                data[i >> <%= log2base %>] = +data[j >> <%= log2base %>];
-                data[j >> <%= log2base %>] = +tmpReal;
+                tmpReal = <%= F %>(data[i >> <%= log2base %>]);
+                data[i >> <%= log2base %>] = <%= F %>(data[j >> <%= log2base %>]);
+                data[j >> <%= log2base %>] = <%= F %>(tmpReal);
 
-                tmpImag = +data[((i + <%= base * N %>) | 0) >> <%= log2base %>];
-                data[((i + <%= base * N %>) | 0) >> <%= log2base %>] = +data[((j + <%= base * N %>) | 0) >> <%= log2base %>];
-                data[((j + <%= base * N %>) | 0) >> <%= log2base %>] = +tmpImag;
+                tmpImag = <%= F %>(data[((i + <%= base * N %>) | 0) >> <%= log2base %>]);
+                data[((i + <%= base * N %>) | 0) >> <%= log2base %>] = <%= F %>(data[((j + <%= base * N %>) | 0) >> <%= log2base %>]);
+                data[((j + <%= base * N %>) | 0) >> <%= log2base %>] = <%= F %>(tmpImag);
             }
         }
 
@@ -132,24 +138,44 @@ exports.fft_f<%= bitbase + '_' + N %> = function (stdlib, foreign, buffer) {
                 for (j = i; (j | 0) < (ihalf | 0); j = (j + <%= base %>) | 0) {
                     jh = (j + half) | 0;
 
-                    realj = +data[j >> <%= log2base %>];
-                    imagj = +data[(j + <%= base * N %>) >> <%= log2base %>];
+                    realj = <%= F %>(data[j >> <%= log2base %>]);
+                    imagj = <%= F %>(data[(j + <%= base * N %>) >> <%= log2base %>]);
 
-                    realjh = +data[jh >> <%= log2base %>];
-                    imagjh = +data[(jh + <%= base * N %>) >> <%= log2base %>];
+                    realjh = <%= F %>(data[jh >> <%= log2base %>]);
+                    imagjh = <%= F %>(data[(jh + <%= base * N %>) >> <%= log2base %>]);
 
-                    sink = +data[k >> <%= log2base %>];
-                    sinkNq = +data[(k + <%= base * Nq %>) >> <%= log2base %>];
+                    sink = <%= F %>(data[k >> <%= log2base %>]);
+                    sinkNq = <%= F %>(data[(k + <%= base * Nq %>) >> <%= log2base %>]);
 
                     // complex multiplication
-                    tmpReal = +(+realjh * +sinkNq + +imagjh * +sink);
-                    tmpImag = +(-realjh * +sink   + +imagjh * +sinkNq);
+                    tmpReal = <%= F %>(
+                        <%= F %>(
+                            <%= F %>(imagjh) *
+                            <%= F %>(sink)
+                        )
+                        +
+                        <%= F %>(
+                            <%= F %>(realjh) *
+                            <%= F %>(sinkNq)
+                        )
+                    );
+                    tmpImag = <%= F %>(
+                        <%= F %>(
+                            <%= F %>(imagjh) *
+                            <%= F %>(sinkNq)
+                        )
+                        -
+                        <%= F %>(
+                            <%= F %>(realjh) *
+                            <%= F %>(sink)
+                        )
+                    );
 
                     // Radix-2 butterfly
-                    data[jh >> <%= log2base %>] = +(realj - tmpReal);
-                    data[((jh + <%= base * N %>) | 0) >> <%= log2base %>] = +(imagj - tmpImag);
-                    data[j >> <%= log2base %>] = +(realj + tmpReal);
-                    data[((j + <%= base * N %>) | 0) >> <%= log2base %>] = +(imagj + tmpImag);
+                    data[jh >> <%= log2base %>] = <%= F %>(realj - tmpReal);
+                    data[((jh + <%= base * N %>) | 0) >> <%= log2base %>] = <%= F %>(imagj - tmpImag);
+                    data[j >> <%= log2base %>] = <%= F %>(realj + tmpReal);
+                    data[((j + <%= base * N %>) | 0) >> <%= log2base %>] = <%= F %>(imagj + tmpImag);
 
                     k = (k + step) | 0;
                 }
