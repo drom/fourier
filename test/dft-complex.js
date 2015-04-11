@@ -42,6 +42,9 @@ describe('DFT 4096', function () {
                 Float64Array: Float64Array,
                 Float32Array: Float32Array
             };
+            if (stdlib.Math.fround === undefined) {
+                stdlib.Math.fround = function (n) { return n; };
+            }
         } else {
             stdlib = window;
         }
