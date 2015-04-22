@@ -151,7 +151,7 @@ describe('DFT 4096', function () {
         done();
     });
 
-    it('random fft-f64 vs. idft-double', function (done) {
+    it('random fft-f64-raw vs. idft-double', function (done) {
         var refReal,
             refImag,
             real,
@@ -170,7 +170,7 @@ describe('DFT 4096', function () {
 
         heap = fft.alloc(len, 3);
 
-        fn = fft['fft_f64_' + len](stdlib, null, heap);
+        fn = fft['fft_f64_' + len + '_raw'](stdlib, null, heap);
         fn.init();
 
         fft.array2heap(real, new Float64Array(heap), len, 0);
@@ -188,7 +188,7 @@ describe('DFT 4096', function () {
         done();
     });
 
-    it('random fft-32 vs. idft-double', function (done) {
+    it('random fft-32-raw vs. idft-double', function (done) {
         var refReal,
             refImag,
             real,
@@ -207,7 +207,7 @@ describe('DFT 4096', function () {
 
         heap = fft.alloc(len, 3);
 
-        fn = fft['fft_f32_' + len](stdlib, null, heap);
+        fn = fft['fft_f32_' + len + '_raw'](stdlib, null, heap);
         fn.init();
 
         fft.array2heap(real, new Float32Array(heap), len, 0);
@@ -225,4 +225,77 @@ describe('DFT 4096', function () {
         done();
     });
 
+    it('random fft-f64-asm vs. idft-double', function (done) {
+        var refReal,
+            refImag,
+            real,
+            imag,
+            res;
+
+        refReal = new Float64Array(len);
+        refImag = new Float64Array(len);
+        real = new Float64Array(len);
+        imag = new Float64Array(len);
+
+        for (i = 0; i < len; i++) {
+            real[i] = refReal[i] = Math.random() - 0.5;
+            imag[i] = refImag[i] = Math.random() - 0.5;
+        }
+
+        heap = fft.alloc(len, 3);
+
+        fn = fft['fft_f64_' + len + '_asm'](stdlib, null, heap);
+        fn.init();
+
+        fft.array2heap(real, new Float64Array(heap), len, 0);
+        fft.array2heap(imag, new Float64Array(heap), len, len);
+
+        fn.transform();
+
+        fft.heap2array(new Float64Array(heap), real, len, 0);
+        fft.heap2array(new Float64Array(heap), imag, len, len);
+
+        res = lib.idft(real, imag);
+
+        compare(res[0], refReal, 'real');
+        compare(res[1], refImag, 'imag');
+        done();
+    });
+
+    it('random fft-32-asm vs. idft-double', function (done) {
+        var refReal,
+            refImag,
+            real,
+            imag,
+            res;
+
+        refReal = new Float32Array(len);
+        refImag = new Float32Array(len);
+        real = new Float32Array(len);
+        imag = new Float32Array(len);
+
+        for (i = 0; i < len; i++) {
+            real[i] = refReal[i] = Math.random() - 0.5;
+            imag[i] = refImag[i] = Math.random() - 0.5;
+        }
+
+        heap = fft.alloc(len, 3);
+
+        fn = fft['fft_f32_' + len + '_asm'](stdlib, null, heap);
+        fn.init();
+
+        fft.array2heap(real, new Float32Array(heap), len, 0);
+        fft.array2heap(imag, new Float32Array(heap), len, len);
+
+        fn.transform();
+
+        fft.heap2array(new Float32Array(heap), real, len, 0);
+        fft.heap2array(new Float32Array(heap), imag, len, len);
+
+        res = lib.idft(real, imag);
+
+        compare(res[0], refReal, 'real');
+        compare(res[1], refImag, 'imag');
+        done();
+    });
 });

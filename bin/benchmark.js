@@ -55,11 +55,11 @@ function initType (N, Type) {
 }
 
 for (j = 16; j <= Math.pow(2, 19); j *= 2) {
-    suite.add('fft_f64_' + j, {
+    suite.add('fft_f64_' + j + '_asm', {
         onStart: (function (size) {
             return function () {
                 heap = fft.alloc(size, 3);
-                fn = fft['fft_f64_' + size](stdlib, null, heap);
+                fn = fft['fft_f64_' + size + '_asm'](stdlib, null, heap);
                 fn.init();
             };
         })(j),
@@ -68,11 +68,37 @@ for (j = 16; j <= Math.pow(2, 19); j *= 2) {
 }
 
 for (j = 16; j <= Math.pow(2, 19); j *= 2) {
-    suite.add('fft_f32_' + j, {
+    suite.add('fft_f64_' + j + '_raw', {
+        onStart: (function (size) {
+            return function () {
+                heap = fft.alloc(size, 3);
+                fn = fft['fft_f64_' + size + '_raw'](stdlib, null, heap);
+                fn.init();
+            };
+        })(j),
+        fn: function () { fn.transform(); }
+    });
+}
+
+for (j = 16; j <= Math.pow(2, 19); j *= 2) {
+    suite.add('fft_f32_' + j + '_asm', {
         onStart: (function (size) {
             return function () {
                 heap = fft.alloc(size, 2);
-                fn = fft['fft_f32_' + size](stdlib, null, heap);
+                fn = fft['fft_f32_' + size + '_asm'](stdlib, null, heap);
+                fn.init();
+            };
+        })(j),
+        fn: function () { fn.transform(); }
+    });
+}
+
+for (j = 16; j <= Math.pow(2, 19); j *= 2) {
+    suite.add('fft_f32_' + j + '_raw', {
+        onStart: (function (size) {
+            return function () {
+                heap = fft.alloc(size, 2);
+                fn = fft['fft_f32_' + size + '_raw'](stdlib, null, heap);
                 fn.init();
             };
         })(j),
