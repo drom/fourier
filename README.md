@@ -28,16 +28,18 @@ var fourier = require('fourier');
 
 ### Functions
 
-#### FFT
+#### FFT custom
 
 Fast Fourier transform (FFT). Cooley–Tukey algorithm. in-place. Radix-2, Decimation in Time (DIT).
 
+One function for each data type, vector size and coding style
+
 ```javascript
-fourier.custom.fft_<type>_<size>_<mode>
+fourier.custom.fft_<type>_<size>_<style>
 ```
- - type: `f32` or `f64`
- - size: `16`, `32`, ... `1048576`
- - mode: 'raw' or `asm`
+ - data type: `f32` or `f64`
+ - vector size: `16`, `32`, ... `1048576`
+ - coding style: 'raw' or `asm`
 
 example:
 ```javascript
