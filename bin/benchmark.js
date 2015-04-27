@@ -4,8 +4,7 @@
 
 'use strict';
 
-var Benchmark = require('benchmark'),
-    fft = require('../lib/fft-custom');
+var Benchmark = require('benchmark');
 
 var suite,
     re,
@@ -58,8 +57,8 @@ for (j = 16; j <= Math.pow(2, 19); j *= 2) {
     suite.add('fft_f64_' + j + '_asm', {
         onStart: (function (size) {
             return function () {
-                heap = fft.alloc(size, 3);
-                fn = fft['fft_f64_' + size + '_asm'](stdlib, null, heap);
+                heap = fourier.custom.alloc(size, 3);
+                fn = fourier.custom['fft_f64_' + size + '_asm'](stdlib, null, heap);
                 fn.init();
             };
         })(j),
@@ -71,8 +70,8 @@ for (j = 16; j <= Math.pow(2, 19); j *= 2) {
     suite.add('fft_f64_' + j + '_raw', {
         onStart: (function (size) {
             return function () {
-                heap = fft.alloc(size, 3);
-                fn = fft['fft_f64_' + size + '_raw'](stdlib, null, heap);
+                heap = fourier.custom.alloc(size, 3);
+                fn = fourier.custom['fft_f64_' + size + '_raw'](stdlib, null, heap);
                 fn.init();
             };
         })(j),
@@ -84,8 +83,8 @@ for (j = 16; j <= Math.pow(2, 19); j *= 2) {
     suite.add('fft_f32_' + j + '_asm', {
         onStart: (function (size) {
             return function () {
-                heap = fft.alloc(size, 2);
-                fn = fft['fft_f32_' + size + '_asm'](stdlib, null, heap);
+                heap = fourier.custom.alloc(size, 2);
+                fn = fourier.custom['fft_f32_' + size + '_asm'](stdlib, null, heap);
                 fn.init();
             };
         })(j),
@@ -97,8 +96,8 @@ for (j = 16; j <= Math.pow(2, 19); j *= 2) {
     suite.add('fft_f32_' + j + '_raw', {
         onStart: (function (size) {
             return function () {
-                heap = fft.alloc(size, 2);
-                fn = fft['fft_f32_' + size + '_raw'](stdlib, null, heap);
+                heap = fourier.custom.alloc(size, 2);
+                fn = fourier.custom['fft_f32_' + size + '_raw'](stdlib, null, heap);
                 fn.init();
             };
         })(j),

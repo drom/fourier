@@ -1,7 +1,6 @@
 'use strict';
 
 var lib = require('../lib'),
-    fft = require('../lib/fft-custom'),
     expect = require('chai').expect;
 
 describe('DFT 4096', function () {
@@ -85,7 +84,7 @@ describe('DFT 4096', function () {
         done();
     });
 
-    it('fft, zeros', function (done) {
+    it('lib.custom, zeros', function (done) {
         inpReal = [];
         inpImag = [];
         for (i = 0; i < len; i++) {
@@ -168,18 +167,18 @@ describe('DFT 4096', function () {
             imag[i] = refImag[i] = Math.random() - 0.5;
         }
 
-        heap = fft.alloc(len, 3);
+        heap = lib.custom.alloc(len, 3);
 
-        fn = fft['fft_f64_' + len + '_raw'](stdlib, null, heap);
+        fn = lib.custom['fft_f64_' + len + '_raw'](stdlib, null, heap);
         fn.init();
 
-        fft.array2heap(real, new Float64Array(heap), len, 0);
-        fft.array2heap(imag, new Float64Array(heap), len, len);
+        lib.custom.array2heap(real, new Float64Array(heap), len, 0);
+        lib.custom.array2heap(imag, new Float64Array(heap), len, len);
 
         fn.transform();
 
-        fft.heap2array(new Float64Array(heap), real, len, 0);
-        fft.heap2array(new Float64Array(heap), imag, len, len);
+        lib.custom.heap2array(new Float64Array(heap), real, len, 0);
+        lib.custom.heap2array(new Float64Array(heap), imag, len, len);
 
         res = lib.idft(real, imag);
 
@@ -205,18 +204,18 @@ describe('DFT 4096', function () {
             imag[i] = refImag[i] = Math.random() - 0.5;
         }
 
-        heap = fft.alloc(len, 3);
+        heap = lib.custom.alloc(len, 3);
 
-        fn = fft['fft_f32_' + len + '_raw'](stdlib, null, heap);
+        fn = lib.custom['fft_f32_' + len + '_raw'](stdlib, null, heap);
         fn.init();
 
-        fft.array2heap(real, new Float32Array(heap), len, 0);
-        fft.array2heap(imag, new Float32Array(heap), len, len);
+        lib.custom.array2heap(real, new Float32Array(heap), len, 0);
+        lib.custom.array2heap(imag, new Float32Array(heap), len, len);
 
         fn.transform();
 
-        fft.heap2array(new Float32Array(heap), real, len, 0);
-        fft.heap2array(new Float32Array(heap), imag, len, len);
+        lib.custom.heap2array(new Float32Array(heap), real, len, 0);
+        lib.custom.heap2array(new Float32Array(heap), imag, len, len);
 
         res = lib.idft(real, imag);
 
@@ -225,7 +224,7 @@ describe('DFT 4096', function () {
         done();
     });
 
-    it('random fft-f64-asm vs. idft-double', function (done) {
+    it('random lib.custom-f64-asm vs. idft-double', function (done) {
         var refReal,
             refImag,
             real,
@@ -242,18 +241,18 @@ describe('DFT 4096', function () {
             imag[i] = refImag[i] = Math.random() - 0.5;
         }
 
-        heap = fft.alloc(len, 3);
+        heap = lib.custom.alloc(len, 3);
 
-        fn = fft['fft_f64_' + len + '_asm'](stdlib, null, heap);
+        fn = lib.custom['fft_f64_' + len + '_asm'](stdlib, null, heap);
         fn.init();
 
-        fft.array2heap(real, new Float64Array(heap), len, 0);
-        fft.array2heap(imag, new Float64Array(heap), len, len);
+        lib.custom.array2heap(real, new Float64Array(heap), len, 0);
+        lib.custom.array2heap(imag, new Float64Array(heap), len, len);
 
         fn.transform();
 
-        fft.heap2array(new Float64Array(heap), real, len, 0);
-        fft.heap2array(new Float64Array(heap), imag, len, len);
+        lib.custom.heap2array(new Float64Array(heap), real, len, 0);
+        lib.custom.heap2array(new Float64Array(heap), imag, len, len);
 
         res = lib.idft(real, imag);
 
@@ -279,18 +278,18 @@ describe('DFT 4096', function () {
             imag[i] = refImag[i] = Math.random() - 0.5;
         }
 
-        heap = fft.alloc(len, 3);
+        heap = lib.custom.alloc(len, 3);
 
-        fn = fft['fft_f32_' + len + '_asm'](stdlib, null, heap);
+        fn = lib.custom['fft_f32_' + len + '_asm'](stdlib, null, heap);
         fn.init();
 
-        fft.array2heap(real, new Float32Array(heap), len, 0);
-        fft.array2heap(imag, new Float32Array(heap), len, len);
+        lib.custom.array2heap(real, new Float32Array(heap), len, 0);
+        lib.custom.array2heap(imag, new Float32Array(heap), len, len);
 
         fn.transform();
 
-        fft.heap2array(new Float32Array(heap), real, len, 0);
-        fft.heap2array(new Float32Array(heap), imag, len, len);
+        lib.custom.heap2array(new Float32Array(heap), real, len, 0);
+        lib.custom.heap2array(new Float32Array(heap), imag, len, len);
 
         res = lib.idft(real, imag);
 
