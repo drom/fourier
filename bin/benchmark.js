@@ -4,7 +4,8 @@
 
 'use strict';
 
-var Benchmark = require('benchmark');
+var Benchmark = require('benchmark'),
+    fourier = require('../lib');
 
 var suite,
     re,

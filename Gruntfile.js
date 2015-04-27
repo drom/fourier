@@ -17,10 +17,6 @@ module.exports = function(grunt) {
             }
         },
         browserify: {
-            client: {
-                src: ['./bin/benchmark.js'],
-                dest: 'build/benchmark.js'
-            },
             browser: {
                 src: ['./lib/browser.js'],
                 dest: './fourier.js'
