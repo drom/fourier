@@ -13,24 +13,23 @@
   "author": "drom",
   "license": "MIT",
   "devDependencies": {
-    "benchmark": "^1.0",
-    "chai": "^3.2",
+    "benchmark": "^1.0.0",
+    "chai": "^3.2.0",
     "eslint": "^1.4.1",
-    "grunt": "^0.4",
-    "grunt-browserify": "^4.0",
-    "grunt-cli": "^0.1",
-    "grunt-contrib-clean": "^0",
-    "grunt-eslint": "^17.1",
-    "grunt-mocha-istanbul": "^3",
-    "grunt-mocha-test": "^0.12",
-    "istanbul": "^0.3",
-    "microtime": "^2",
-    "mocha": "^2.3",
-    "shift-codegen": "*",
-    "shift-traverse": "*"
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^4.0.1",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-eslint": "^17.1.0",
+    "grunt-mocha-istanbul": "^3.0.1",
+    "grunt-mocha-test": "^0.12.7",
+    "istanbul": "^0.3.19",
+    "mocha": "^2.3.2",
+    "shift-codegen": "^3.0.0",
+    "shift-traverse": "^1.0.1"
   },
   "dependencies": {
-    "lodash": "^3.10"
+    "lodash": "^3.10.1"
   },
   "bin": {
     "fourier": "bin/benchmark.js"
