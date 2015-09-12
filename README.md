@@ -65,13 +65,13 @@ fft_f64_65536_asm_runner.transform();
 fourier.dft(realArray, imagArray); // ⇒ [realArray, imagArray]
 ```
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=X_k=\sum_{n=0}^{N-1}x_n\cdot&space;e^{-i&space;2&space;\pi&space;k&space;n/N}" target="_blank"><img src="http://latex.codecogs.com/svg.latex?X_k=\sum_{n=0}^{N-1}x_n\cdot&space;e^{-i&space;2&space;\pi&space;k&space;n/N}" title="X_k=\sum_{n=0}^{N-1}x_n\cdot e^{-i 2 \pi k n/N}" /></a>
+<a href="http://www.codecogs.com/eqnedit.php?latex=X_k=\sum_{n=0}^{N-1}x_n\cdot&space;e^{-i&space;2&space;\pi&space;k&space;n/N}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?X_k%3D%5Csum_%7Bn%3D0%7D%5E%7BN-1%7Dx_n%5Ccdot%20e%5E%7B-i%202%20%5Cpi%20k%20n/N%7D" /></a>
 
 ```js
 fourier.idft(realArray, imagArray); // ⇒ [realArray, imagArray]
 ```
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;x_n=\frac{1}{N}\sum_{k=0}^{N-1}X_k\cdot&space;e^{i&space;2&space;\pi&space;kn/N}" target="_blank"><img src="http://latex.codecogs.com/svg.latex?\large&space;x_n=\frac{1}{N}\sum_{k=0}^{N-1}X_k\cdot&space;e^{i&space;2&space;\pi&space;kn/N}" title="\large x_n=\frac{1}{N}\sum_{k=0}^{N-1}X_k\cdot e^{i 2 \pi kn/N}" /></a>
+<a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;x_n=\frac{1}{N}\sum_{k=0}^{N-1}X_k\cdot&space;e^{i&space;2&space;\pi&space;kn/N}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?%5Clarge%20x_n%3D%5Cfrac%7B1%7D%7BN%7D%5Csum_%7Bk%3D0%7D%5E%7BN-1%7DX_k%5Ccdot%20e%5E%7Bi%202%20%5Cpi%20kn/N%7D" /></a>
 
 ## Testing
 `npm test`
