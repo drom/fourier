@@ -5,8 +5,8 @@
 
 Pure JavaScript library discrete transforms, including [Discrete Fourier Transform](http://en.wikipedia.org/wiki/Discrete_Fourier_transform) (DFT); It's fast, inverse, and special forms.
 
-# Use
-## Node.js
+## Use
+### Node.js
 
 ```
 npm i fourier --save
@@ -16,14 +16,14 @@ npm i fourier --save
 var fourier = require('fourier');
 ```
 
-## Browser
+### Browser
 
 ```html
 <script src="https://rawgithub.com/drom/fourier/master/fourier.js"></script>
 ```
 
-# Functions
-## FFT custom
+## Functions
+### FFT custom
 Fast Fourier transform (FFT). Cooley–Tukey algorithm. in-place. Radix-2, Decimation in Time (DIT).
 
 One function for each data type, vector size and coding style
@@ -36,7 +36,7 @@ fourier.custom.fft_<type>_<size>_<style>
 - vector size: `16`, `32`, ... `1048576`
 - coding style: 'raw' or `asm`
 
-### example:
+#### example:
 
 ```js
 // Init
@@ -59,7 +59,7 @@ fft_f64_65536_asm_runner.init();
 fft_f64_65536_asm_runner.transform();
 ```
 
-## Other
+### Other
 
 ```js
 fourier.dft(realArray, imagArray); // ⇒ [realArray, imagArray]
@@ -73,7 +73,7 @@ fourier.idft(realArray, imagArray); // ⇒ [realArray, imagArray]
 
 <a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;x_n=\frac{1}{N}\sum_{k=0}^{N-1}X_k\cdot&space;e^{i&space;2&space;\pi&space;kn/N}" target="_blank"><img src="http://latex.codecogs.com/svg.latex?\large&space;x_n=\frac{1}{N}\sum_{k=0}^{N-1}X_k\cdot&space;e^{i&space;2&space;\pi&space;kn/N}" title="\large x_n=\frac{1}{N}\sum_{k=0}^{N-1}X_k\cdot e^{i 2 \pi kn/N}" /></a>
 
-# Testing
+## Testing
 `npm test`
 
 ## License
