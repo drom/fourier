@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "benchmark": "node bin/benchmark.js",
-    "test": "grunt eslint mocha; node bin/benchmark.js"
+    "test": "grunt default; node bin/benchmark.js"
   },
   "keywords": [
     "fourier"
