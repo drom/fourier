@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "benchmark": "node bin/benchmark.js",
-    "test": "eslint lib/**/*.js ; mocha test/*.js ; node bin/benchmark.js"
+    "test": "eslint lib/**/*.js && mocha test/*.js && node bin/benchmark.js"
   },
   "keywords": [
     "fourier"
