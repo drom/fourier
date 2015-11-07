@@ -1,7 +1,9 @@
 <span><img align="right" src="http://upload.wikimedia.org/wikipedia/commons/4/49/Joseph_Fourier_%28circa_1820%29.jpg"/></span>
 
 # *Fourier*
-[![NPM](https://badge.fury.io/js/fourier.svg)](http://badge.fury.io/js/fourier) [![Travis](https://travis-ci.org/drom/fourier.svg)](https://travis-ci.org/drom/fourier) [![appVeyor](https://ci.appveyor.com/api/projects/status/uly3uspj4w4rjw8q?svg=true)](https://ci.appveyor.com/project/drom/fourier)
+[![NPM version](https://img.shields.io/npm/v/fourier.svg)](https://www.npmjs.org/package/fourier)
+[![Travis](https://travis-ci.org/drom/fourier.svg)](https://travis-ci.org/drom/fourier)
+[![appVeyor](https://ci.appveyor.com/api/projects/status/uly3uspj4w4rjw8q?svg=true)](https://ci.appveyor.com/project/drom/fourier)
 
 Pure JavaScript library discrete transforms, including [Discrete Fourier Transform](http://en.wikipedia.org/wiki/Discrete_Fourier_transform) (DFT); It's fast, inverse, and special forms.
 
