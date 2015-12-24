@@ -2,7 +2,7 @@
 
 'use strict';
 
-var _ = require('lodash'),
+var template = require('lodash.template'),
     fs = require('fs'),
     path = require('path');
 
@@ -11,6 +11,6 @@ fs.readFile(
     { encoding: 'utf8' },
     function (err, data) {
         if (err) { throw err; }
-        console.log(_.template(data)({min: 4, max: 20}));
+        console.log(template(data)({min: 4, max: 20}));
     }
 );
