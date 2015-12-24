@@ -34,14 +34,14 @@ exports.heap2array = function (arr, output, size, offset) {
     }
 };
 <% var i, j, N, Nh, Nq;
-[true, false].forEach(function (asm) {
-[2, 3].forEach(function (log2base) {
+asms.forEach(function (asm) {
+bases.forEach(function (log2base) {
     var base = 1 << log2base;
     var bitbase = 8 * base;
     var F = asm ? ((log2base === 3) ? '+' : 'fround') : '';
 
     var Z = (log2base === 3) ? '0.0' : 'fround(0.0)';
-    for (i = min; i <= max; i++) {
+    sizes.forEach(function (i) {
         N = Math.pow(2, i);
         Nh = N / 2;
         Nq = N / 4;
@@ -192,4 +192,4 @@ exports.fft_f<%= bitbase + '_' + N + '_' + (asm ? 'asm' : 'raw') %> = function (
         transform: transform
     };
 };
-<% } }); }); %>
+<% }); }); }); %>
