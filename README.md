@@ -78,5 +78,6 @@ fourier.idft(realArray, imagArray); // ⇒ [realArray, imagArray]
 ## Testing
 `npm test`
 
+
 ## License
 MIT [LICENSE](https://github.com/drom/fourier/blob/master/LICENSE).
