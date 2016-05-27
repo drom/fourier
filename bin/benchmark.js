@@ -1,7 +1,4 @@
 #!/usr/bin/env node
-
-(function () {
-
 'use strict';
 
 var Benchmark = require('benchmark'),
@@ -120,5 +117,3 @@ suite
         console.log(String(event.target));
     })
     .run({ async: false });
-
-})();

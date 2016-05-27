@@ -20,6 +20,10 @@ module.exports = function(grunt) {
             browser: {
                 src: ['./lib/browser.js'],
                 dest: './fourier.js'
+            },
+            benchmark: {
+                src: ['./bin/benchmark.js'],
+                dest: './fourier-benchmark.js'
             }
         },
         mocha_istanbul: {
