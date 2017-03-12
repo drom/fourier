@@ -30,7 +30,9 @@
     "shift-codegen": "^4.0.3",
     "shift-traverse": "^1.0.1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "lodash.range": "^3.2.0"
+  },
   "bin": {
     "fourier": "bin/benchmark.js"
   },

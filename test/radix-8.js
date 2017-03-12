@@ -4,11 +4,11 @@ var lib = require('../lib'),
     flows = require('../src/flows'),
     expect = require('chai').expect;
 
-function range (n) {
-    return Array.apply(null, Array(n)).map(function (e, i) {
-        return i;
-    });
-}
+var std = {
+    add: function (a, b) { return a + b; },
+    sub: function (a, b) { return a - b; },
+    mul: function (a, b) { return a * b; }
+};
 
 describe('Radix8', function () {
     var i,
@@ -74,7 +74,7 @@ describe('Radix8', function () {
             complex.push({ re: real[i], im: imag[i] });
         }
 
-        complex = flows.radix8(complex);
+        complex = flows(std).radix8(complex);
 
         var cx = complex.reduce(function (res, e) {
             res.re.push(e.re);
