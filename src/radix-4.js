@@ -22,16 +22,16 @@ function genRadix4 (ops) {
             x[0],
             x[2],
             x[1],
-            swap(x[3])
+            swap(x[3]) // first part of conj.
         ];
     }
 
     function radix4_c (x) {
         return [
             pppp(x[0], x[2]),
-            pppm(x[1], x[3]),
+            pppm(x[1], x[3]), // second part of conj.
             mpmp(x[2], x[0]),
-            mppp(x[3], x[1])
+            mppp(x[3], x[1])  // second part of conj.
         ];
     }
 

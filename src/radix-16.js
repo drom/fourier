@@ -136,7 +136,7 @@ module.exports = function (ops) {
             x[8],
             x[9],
             x[10],
-            x[11],
+            swap(x[11]),
             x[12],
             mpmp(x[13], x[17]),
             x[14],
@@ -155,12 +155,12 @@ module.exports = function (ops) {
             x[6],
             pppp(x[7], x[5]),
             x[8],
-            pppp(x[9], swap(x[11])),
+            pppp(x[9], x[11]),
             x[10],
-            mpmp(swap(x[11]), x[9]),
+            mpmp(x[11], x[9]),
             x[12],
             x[13],
-            x[14],
+            swap(x[14]),
             x[15]
         ];
     }
@@ -178,11 +178,11 @@ module.exports = function (ops) {
             mpmp(x[8],  x[0]),
 
             mpmp(x[9],  x[15]),
-            pppp(x[10], swap(x[14])),
+            pppp(x[10], x[14]),
             mpmp(x[11], x[13]),
-            x[12],
+            swap(x[12]),
             pppp(x[13], x[11]),
-            mpmp(swap(x[14]), x[10]),
+            mpmp(x[14], x[10]),
             pppp(x[15], x[9])
         ];
     }
@@ -193,7 +193,7 @@ module.exports = function (ops) {
             pppp(x[1],  x[15]),
             pppp(x[2],  x[14]),
             pppp(x[3],  x[13]),
-            pppp(x[4], swap(x[12])),
+            pppp(x[4],  x[12]),
             pppp(x[5],  x[11]),
             pppp(x[6],  x[10]),
             pppp(x[7],  x[9]),
@@ -201,7 +201,7 @@ module.exports = function (ops) {
             mpmp(x[9],  x[7]),
             mpmp(x[10], x[6]),
             mpmp(x[11], x[5]),
-            mpmp(swap(x[12]), x[4]),
+            mpmp(x[12], x[4]),
             mpmp(x[13], x[3]),
             mpmp(x[14], x[2]),
             mpmp(x[15], x[1])

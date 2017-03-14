@@ -21,19 +21,6 @@ function genRadix8 (ops) {
         ];
     }
 
-    function radix8_f (e) {
-        return [
-            e[0],
-            pppp(e[1], e[7]),
-            pppp(e[2], swap(e[6])),
-            pppp(e[3], e[5]),
-            e[4],
-            mpmp(e[5], e[3]),
-            mpmp(swap(e[6]), e[2]),
-            mpmp(e[7], e[1])
-        ];
-    }
-
     function radix8_b (a) {
         return [
             pppp(a[0], a[4]),
@@ -44,19 +31,6 @@ function genRadix8 (ops) {
             mpmp(a[5], a[7]),
             a[6],
             pppp(a[7], a[5])
-        ];
-    }
-
-    function radix8_e (d) {
-        return [
-            pppp(d[0], d[4]),
-            mpmp(d[1], d[3]),
-            d[2],
-            pppp(d[3], d[1]),
-            mpmp(d[4], d[0]),
-            mpmp(swap(d[5]), d[7]),
-            d[6],
-            pppp(d[7], swap(d[5]))
         ];
     }
 
@@ -80,15 +54,28 @@ function genRadix8 (ops) {
             c[2],
             c[3],
             c[4],
-            c[5],
-            c[6],
-            swap(c03(c[7]))
+            swap(c[5]),     // first part of conj.
+            swap(c[6]),     // first part of conj.
+            swap(c03(c[7])) // first part of conj.
+        ];
+    }
+
+    function radix8_f (e) {
+        return [
+            e[0],
+            pppp(e[1], e[7]), // second part of conj.
+            pppp(e[2], e[6]), // second part of conj.
+            pppp(e[3], e[5]), // second part of conj.
+            e[4],
+            mpmp(e[5], e[3]), // second part of conj.
+            mpmp(e[6], e[2]), // second part of conj.
+            mpmp(e[7], e[1])  // second part of conj.
         ];
     }
 
     function radix8 (x) {
         return radix8_f(
-            radix8_e(
+            radix8_b(
             radix8_d(
             radix8_c(
             radix8_b(
