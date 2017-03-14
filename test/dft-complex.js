@@ -1,6 +1,7 @@
 'use strict';
 
 var lib = require('../lib'),
+    FFT = require('fft.js'),
     expect = require('chai').expect;
 
 describe('DFT 4096', function () {
@@ -35,18 +36,18 @@ describe('DFT 4096', function () {
         },
         add = function (a, b) { return a + b; };
 
-        if (typeof window === 'undefined') {
-            stdlib = {
-                Math: Math,
-                Float64Array: Float64Array,
-                Float32Array: Float32Array
-            };
-            if (stdlib.Math.fround === undefined) {
-                stdlib.Math.fround = function (n) { return n; };
-            }
-        } else {
-            stdlib = window;
+    if (typeof window === 'undefined') {
+        stdlib = {
+            Math: Math,
+            Float64Array: Float64Array,
+            Float32Array: Float32Array
+        };
+        if (stdlib.Math.fround === undefined) {
+            stdlib.Math.fround = function (n) { return n; };
         }
+    } else {
+        stdlib = window;
+    }
 
     it('dft, zeros', function (done) {
         var res;
@@ -117,11 +118,43 @@ describe('DFT 4096', function () {
         inpReal = [];
         inpImag = [];
         for (i = 0; i < len; i++) {
-            inpReal.push(100 * Math.random());
-            inpImag.push(100 * Math.random());
+            inpReal.push(Math.random() - 0.5);
+            inpImag.push(Math.random() - 0.5);
         }
 
         res = lib.dft(inpReal, inpImag);
+        res = lib.idft(res[0], res[1]);
+
+        compare(res[0], inpReal, 'real');
+        compare(res[1], inpImag, 'imag');
+        done();
+    });
+
+    it('random fft.js / idft', function (done) {
+        var f = new FFT(len);
+        var a = f.createComplexArray();
+        var b = f.createComplexArray();
+        var re, im, res;
+
+        inpReal = [];
+        inpImag = [];
+        for (i = 0; i < (2 * len); i += 2) {
+            re = Math.random() - 0.5;
+            im = Math.random() - 0.5;
+            a[i] = re;
+            a[i + 1] = im;
+            inpReal.push(re);
+            inpImag.push(im);
+        }
+
+        f.transform(b, a);
+
+        res = [[], []];
+        for (i = 0; i < (2 * len); i += 2) {
+            res[0].push(b[i]);
+            res[1].push(b[i + 1]);
+        }
+
         res = lib.idft(res[0], res[1]);
 
         compare(res[0], inpReal, 'real');
@@ -136,8 +169,8 @@ describe('DFT 4096', function () {
         inpReal = [];
         inpImag = [];
         for (i = 0; i < len; i++) {
-            inpReal.push(100 * Math.random());
-            inpImag.push(100 * Math.random());
+            inpReal.push(Math.random() - 0.5);
+            inpImag.push(Math.random() - 0.5);
             res[0].push(inpReal[i]);
             res[1].push(inpImag[i]);
         }
@@ -187,7 +220,7 @@ describe('DFT 4096', function () {
         done();
     });
 
-    it('random fft-32-raw vs. idft-double', function (done) {
+    it('random fft-f32-raw vs. idft-double', function (done) {
         var refReal,
             refImag,
             real,
@@ -261,7 +294,7 @@ describe('DFT 4096', function () {
         done();
     });
 
-    it('random fft-32-asm vs. idft-double', function (done) {
+    it('random fft-f32-asm vs. idft-double', function (done) {
         var refReal,
             refImag,
             real,
@@ -298,3 +331,5 @@ describe('DFT 4096', function () {
         done();
     });
 });
+
+/* eslint no-console: 0 */
