@@ -1,8 +1,15 @@
 'use strict';
 
-var lib = require('../lib'),
-    FFT = require('fft.js'),
-    expect = require('chai').expect;
+var lib = require('../lib');
+
+try {
+    var FFT = require('fft.js');
+} catch(err) {
+    console.log('Nope, the runtime is too old');
+    console.log(err);
+}
+
+var expect = require('chai').expect;
 
 describe('DFT 4096', function () {
     var i,
@@ -131,34 +138,39 @@ describe('DFT 4096', function () {
     });
 
     it('random fft.js / idft', function (done) {
-        var f = new FFT(len);
-        var a = f.createComplexArray();
-        var b = f.createComplexArray();
-        var re, im, res;
+        try {
+            var f = new FFT(len);
+            var a = f.createComplexArray();
+            var b = f.createComplexArray();
+            var re, im, res;
 
-        inpReal = [];
-        inpImag = [];
-        for (i = 0; i < (2 * len); i += 2) {
-            re = Math.random() - 0.5;
-            im = Math.random() - 0.5;
-            a[i] = re;
-            a[i + 1] = im;
-            inpReal.push(re);
-            inpImag.push(im);
+            inpReal = [];
+            inpImag = [];
+            for (i = 0; i < (2 * len); i += 2) {
+                re = Math.random() - 0.5;
+                im = Math.random() - 0.5;
+                a[i] = re;
+                a[i + 1] = im;
+                inpReal.push(re);
+                inpImag.push(im);
+            }
+
+            f.transform(b, a);
+
+            res = [[], []];
+            for (i = 0; i < (2 * len); i += 2) {
+                res[0].push(b[i]);
+                res[1].push(b[i + 1]);
+            }
+
+            res = lib.idft(res[0], res[1]);
+
+            compare(res[0], inpReal, 'real');
+            compare(res[1], inpImag, 'imag');
+        } catch(err) {
+            console.log('Nope, the runtime is too old');
+            console.log(err);
         }
-
-        f.transform(b, a);
-
-        res = [[], []];
-        for (i = 0; i < (2 * len); i += 2) {
-            res[0].push(b[i]);
-            res[1].push(b[i + 1]);
-        }
-
-        res = lib.idft(res[0], res[1]);
-
-        compare(res[0], inpReal, 'real');
-        compare(res[1], inpImag, 'imag');
         done();
     });
 
