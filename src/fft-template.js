@@ -193,3 +193,5 @@ exports.fft_f<%= bitbase + '_' + N + '_' + (asm ? 'asm' : 'raw') %> = function (
     };
 };
 <% }); }); }); %>
+
+/* eslint camelcase:0  */

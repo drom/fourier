@@ -15,6 +15,7 @@
   "author": "drom",
   "license": "MIT",
   "devDependencies": {
+    "@drom/eslint-config": "^0.7.0",
     "benchmark": "^2.1.3",
     "browserify": "^15.1.0",
     "chai": "^4.1.2",
@@ -43,5 +44,13 @@
   "bugs": {
     "url": "https://github.com/drom/fourier/issues"
   },
-  "homepage": "https://github.com/drom/fourier"
+  "homepage": "https://github.com/drom/fourier",
+  "eslintConfig": {
+    "extends": "@drom/eslint-config/eslint2/node0",
+    "globals": {
+      "ArrayBuffer": true,
+      "Float64Array": true,
+      "Float32Array": true
+    }
+  }
 }
