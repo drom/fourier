@@ -2,7 +2,8 @@
 fourier = require('./index');
 
 /* eslint-env browser */
-/* global fourier:true */
+/* global fourier: 0 */
+/* eslint no-unused-vars: 0 */
 
 },{"./index":8}],2:[function(require,module,exports){
 'use strict';
@@ -10240,14 +10241,14 @@ function fftDitRadix2 () {
         twoPiByN = Math.PI / N * 2;
 
         switch (Object.prototype.toString.call(input)) {
-            case '[object Float64Array]':
-                sin = new Float64Array(NQ);
-                break;
-            case '[object Float32Array]':
-                sin = new Float32Array(NQ);
-                break;
-            default:
-                sin = new Array(NQ);
+        case '[object Float64Array]':
+            sin = new Float64Array(NQ);
+            break;
+        case '[object Float32Array]':
+            sin = new Float32Array(NQ);
+            break;
+        default:
+            sin = new Array(NQ);
         }
 
         sin[0] = sin[N / 2] = sin[N] = 0;
