@@ -6,6 +6,7 @@
   "scripts": {
     "benchmark": "node bin/benchmark.js",
     "build": "./bin/fft-gen.js > lib/fft-custom.js",
+    "build4": "./bin/fft-radix4-gen.js > lib/fft-radix4-custom.js",
     "test": "eslint lib/**/*.js && mocha test/*.js && node bin/benchmark.js",
     "bro": "browserify ./lib/browser.js > fourier.js"
   },
