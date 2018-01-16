@@ -33,20 +33,24 @@ exports.heap2array = function (arr, output, size, offset) {
         output[i] = arr[i + offset];
     }
 };
-<% var i, j, N, Nh, Nq;
+
+<%
 asms.forEach(function (asm) {
 bases.forEach(function (log2base) {
     var base = 1 << log2base;
     var bitbase = 8 * base;
+    var log2radix = 2;
+    var radix = 4;
     var F = asm ? ((log2base === 3) ? '+' : 'fround') : '';
 
     var Z = (log2base === 3) ? '0.0' : 'fround(0.0)';
     sizes.forEach(function (i) {
-        N = Math.pow(2, i);
-        Nh = N / 2;
-        Nq = N / 4;
+        var N = Math.pow(2, i);
+        var Nh = N / radix;
+        var Nq = Nh / 2;
+
 %>
-exports.fft_f<%= bitbase + '_' + N + '_' + (asm ? 'asm' : 'raw') %> = function (stdlib, foreign, buffer) {
+exports.fft_radix4_f<%= bitbase + '_' + N + '_' + (asm ? 'asm' : 'raw') %> = function (stdlib, foreign, buffer) {
 <%= asm ? '    \'use asm\';' : '' %>
 
     var sin = stdlib.Math.sin,
@@ -93,39 +97,72 @@ exports.fft_f<%= bitbase + '_' + N + '_' + (asm ? 'asm' : 'raw') %> = function (
         var i = 0,
             j = 0,
             k = 0,
-            ihalf = 0,
+            ileg = 0,
             width = 0;
 
-        var step = <%= base * Nh %>;
-        var half = <%= base %>;
+        console.log(data);
 
+        // element permutation
+        // for (i = 0; (i | 0) < <%= base * N %>; i = (i + <%= base %>) | 0) {
+        //     // digit reversal
+        //     var x = (i | 0) >> <%= log2base %>;
+        //     j = 0;
+        //     for (k = 0; (k | 0) < <%= i %>; k = (k + 1) | 0) {
+        //         j = j << 1;
+        //         j = j | (x & 1);
+        //         x = x >> 1;
+        //     }
+        //     j = j << <%= log2base %>;
+        //     if ((j | 0) > (i | 0)) {
+        //
+        //         var tmpReal = <%= F %>(data[i >> <%= log2base %>]);
+        //         data[i >> <%= log2base %>] = <%= F %>(data[j >> <%= log2base %>]);
+        //         data[j >> <%= log2base %>] = <%= F %>(tmpReal);
+        //
+        //         var tmpImag = <%= F %>(data[((i + <%= base * N %>) | 0) >> <%= log2base %>]);
+        //         data[((i + <%= base * N %>) | 0) >> <%= log2base %>] = <%= F %>(data[((j + <%= base * N %>) | 0) >> <%= log2base %>]);
+        //         data[((j + <%= base * N %>) | 0) >> <%= log2base %>] = <%= F %>(tmpImag);
+        //     }
+        // }
+
+
+        var step = <%= base * Nh %>;
+        var leg = <%= base %>;
+
+        // decimation-in-time
         // data is in normal order
-        for (width = <%= base * 2 %>; (width | 0) <= <%= base * N %>; width = (width * 4) | 0) {
+
+        console.log(data);
+
+        for (width = <%= base * radix %>; (width | 0) <= <%= base * N %>; width = (width << <%= log2radix %>) | 0) {
+            // per layer
+<% for(var idx = 0; idx < 4; idx++) { %>
+            var leg<%= idx %> = <%= idx %> * leg;<% } %>
+
             for (i = 0; (i | 0) < <%= base * N %>; i = (i + width) | 0) {
+                // per butterfly group
                 k = <%= base * 2 * N %>;
-                ihalf = (i + half) | 0;
-                for (j = i; (j | 0) < (ihalf | 0); j = (j + <%= base %>) | 0) {
+                ileg = (i + leg) | 0;
+
+                for (j = i; (j | 0) < (ileg | 0); j = (j + <%= base %>) | 0) {
+                    // per butterfly
 
                     // Data address
 <% for(var idx = 0; idx < 4; idx++) { %>
-                    var daddr_re<%= idx %> = j + (<%= idx %> * half);
-                    var daddr_im<%= idx %> = daddr_re<%= idx %> + <%= base * N %>;
-<% } %>
+                    var daddr_re<%= idx %> = j + leg<%= idx %>;
+                    var daddr_im<%= idx %> = daddr_re<%= idx %> + <%= base * N %>;<% } %>
                     // Load Data
 <% for(var idx = 0; idx < 4; idx++) { %>
                     var y_re<%= idx %> = <%= F %>(data[daddr_re<%= idx %> >> <%= log2base %>]);
-                    var y_im<%= idx %> = <%= F %>(data[daddr_im<%= idx %> >> <%= log2base %>]);
-<% } %>
+                    var y_im<%= idx %> = <%= F %>(data[daddr_im<%= idx %> >> <%= log2base %>]);<% } %>
                     // Twiddle addresses
 <% for(var idx = 0; idx < 4; idx++) { %>
                     var taddr_re<%= idx %> = <%= idx %> * k;
-                    var taddr_im<%= idx %> = taddr_re<%= idx %> + <%= base * Nq %>;
-<% } %>
+                    var taddr_im<%= idx %> = taddr_re<%= idx %> + <%= base * Nq %>;<% } %>
                     // Load twiddles
 <% for(var idx = 0; idx < 4; idx++) { %>
                     var sin<%= idx %> = <%= F %>(data[taddr_re<%= idx %> >> <%= log2base %>]);
-                    var cos<%= idx %> = <%= F %>(data[taddr_im<%= idx %> >> <%= log2base %>]);
-<% } %>
+                    var cos<%= idx %> = <%= F %>(data[taddr_im<%= idx %> >> <%= log2base %>]);<% } %>
                     // complex multiplication
 <% for(var idx = 0; idx < 4; idx++) { %>
                     var x_re<%= idx %> = <%= F %>(<%= F %>(<%= F %>(y_im<%= idx %>) * <%= F %>(sin<%= idx %>)) + <%= F %>(<%= F %>(y_re<%= idx %>) * <%= F %>(sin<%= idx %>)));
@@ -166,9 +203,10 @@ exports.fft_f<%= bitbase + '_' + N + '_' + (asm ? 'asm' : 'raw') %> = function (
                     k = (k + step) | 0;
                 }
             }
-            step = step >> 1;
-            half = half << 1;
+            step = step >> <%= log2radix %>;
+            leg = leg << <%= log2radix %>;
         }
+        console.log(data);
     }
 
     return {
@@ -178,4 +216,4 @@ exports.fft_f<%= bitbase + '_' + N + '_' + (asm ? 'asm' : 'raw') %> = function (
 };
 <% }); }); }); %>
 
-/* eslint camelcase:0  */
+/* eslint camelcase:0 no-console:0 */

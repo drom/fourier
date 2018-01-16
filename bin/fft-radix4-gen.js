@@ -15,7 +15,7 @@ fs.readFile(
         console.log(t({
             asms: [false],
             bases: [3],
-            sizes: [4, 2, 10]
+            sizes: [4, 2, 10, 6]
         }));
     }
 );
