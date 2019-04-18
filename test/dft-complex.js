@@ -12,6 +12,7 @@ try {
 var expect = require('chai').expect;
 
 describe('DFT 4096', function () {
+    this.timeout(5000);
     var i,
         inpReal,
         inpImag,
@@ -196,7 +197,6 @@ describe('DFT 4096', function () {
     });
 
     it('random fft-f64-raw vs. idft-double', function (done) {
-        this.timeout(5000);
         var refReal,
             refImag,
             real,
@@ -234,7 +234,6 @@ describe('DFT 4096', function () {
     });
 
     it('random fft-f32-raw vs. idft-double', function (done) {
-        this.timeout(5000);
         var refReal,
             refImag,
             real,
@@ -272,7 +271,6 @@ describe('DFT 4096', function () {
     });
 
     it('random lib.custom-f64-asm vs. idft-double', function (done) {
-        this.timeout(5000);
         var refReal,
             refImag,
             real,
@@ -310,7 +308,6 @@ describe('DFT 4096', function () {
     });
 
     it('random fft-f32-asm vs. idft-double', function (done) {
-        this.timeout(5000);
         var refReal,
             refImag,
             real,
