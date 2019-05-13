@@ -16,16 +16,16 @@
   "author": "drom",
   "license": "MIT",
   "devDependencies": {
-    "@drom/eslint-config": "^0.7.0",
+    "@drom/eslint-config": "^0.10.0",
     "benchmark": "^2.1.3",
-    "browserify": "^15.1.0",
+    "browserify": "^16.2.3",
     "chai": "^4.1.2",
     "eslint": "^2.13.1",
     "fft.js": "^4.0.3",
     "lodash": "^4.17.4",
     "lodash.template": "^4.4.0",
     "mocha": "^2.4.5",
-    "shift-codegen": "^5.0.5",
+    "shift-codegen": "^6.0.0",
     "shift-traverse": "^1.0.1"
   },
   "dependencies": {
