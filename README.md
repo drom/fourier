@@ -21,7 +21,7 @@ var fourier = require('fourier');
 ### Browser
 
 ```html
-<script src="https://rawgithub.com/drom/fourier/master/fourier.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fourier/fourier.min.js"></script>
 ```
 
 ## Functions
