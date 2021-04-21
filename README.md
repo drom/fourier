@@ -1,4 +1,4 @@
-<span><img align="right" src="http://upload.wikimedia.org/wikipedia/commons/4/49/Joseph_Fourier_%28circa_1820%29.jpg"/></span>
+<span><img align="right" src="logo.png"/></span>
 
 # *Fourier*
 [![NPM version](https://img.shields.io/npm/v/fourier.svg)](https://www.npmjs.org/package/fourier)
