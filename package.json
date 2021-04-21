@@ -18,13 +18,13 @@
   "devDependencies": {
     "@drom/eslint-config": "^0.10.0",
     "benchmark": "^2.1.3",
-    "browserify": "^16.2.3",
+    "browserify": "^17.0.0",
     "chai": "^4.1.2",
-    "eslint": "^2.13.1",
+    "eslint": "^7.24.0",
     "fft.js": "^4.0.3",
-    "lodash": "^4.17.4",
-    "lodash.template": "^4.4.0",
-    "mocha": "^2.4.5",
+    "lodash": "^4.17.14",
+    "lodash.template": "^4.5.0",
+    "mocha": "^8.3.2",
     "shift-codegen": "^6.0.0",
     "shift-traverse": "^1.0.1"
   },
