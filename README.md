@@ -5,7 +5,6 @@
 [![Linux](https://github.com/drom/fourier/actions/workflows/linux.yml/badge.svg)](https://github.com/drom/fourier/actions/workflows/linux.yml)
 [![MacOS](https://github.com/drom/fourier/actions/workflows/macos.yml/badge.svg)](https://github.com/drom/fourier/actions/workflows/macos.yml)
 [![Windows](https://github.com/drom/fourier/actions/workflows/windows.yml/badge.svg)](https://github.com/drom/fourier/actions/workflows/windows.yml)
-[![Coverage Status](https://coveralls.io/repos/github/drom/fourier/badge.svg?branch=trunk)](https://coveralls.io/github/drom/fourier?branch=trunk)
 
 Pure JavaScript library discrete transforms, including [Discrete Fourier Transform](http://en.wikipedia.org/wiki/Discrete_Fourier_transform) (DFT); It's fast, inverse, and special forms.
 
