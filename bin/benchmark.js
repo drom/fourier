@@ -1,13 +1,12 @@
 #!/usr/bin/env node
 'use strict';
 
-var Benchmark = require('benchmark'),
-  fourier = require('../lib');
+const Benchmark = require('benchmark');
+const fourier = require('../lib');
 
 var suite,
   re,
   im,
-  j,
   stdlib,
   heap,
   fn;
@@ -51,7 +50,7 @@ function initType (N, Type) {
   };
 }
 
-for (j = 16; j <= Math.pow(2, 19); j *= 2) {
+for (let j = 16; j <= Math.pow(2, 19); j *= 2) {
   suite.add('fft_f64_' + j + '_asm', {
     onStart: (function (size) {
       return function () {
@@ -64,7 +63,7 @@ for (j = 16; j <= Math.pow(2, 19); j *= 2) {
   });
 }
 
-for (j = 16; j <= Math.pow(2, 19); j *= 2) {
+for (let j = 16; j <= Math.pow(2, 19); j *= 2) {
   suite.add('fft_f64_' + j + '_raw', {
     onStart: (function (size) {
       return function () {
@@ -77,7 +76,7 @@ for (j = 16; j <= Math.pow(2, 19); j *= 2) {
   });
 }
 
-for (j = 16; j <= Math.pow(2, 19); j *= 2) {
+for (let j = 16; j <= Math.pow(2, 19); j *= 2) {
   suite.add('fft_f32_' + j + '_asm', {
     onStart: (function (size) {
       return function () {
@@ -90,7 +89,7 @@ for (j = 16; j <= Math.pow(2, 19); j *= 2) {
   });
 }
 
-for (j = 16; j <= Math.pow(2, 19); j *= 2) {
+for (let j = 16; j <= Math.pow(2, 19); j *= 2) {
   suite.add('fft_f32_' + j + '_raw', {
     onStart: (function (size) {
       return function () {
@@ -103,7 +102,7 @@ for (j = 16; j <= Math.pow(2, 19); j *= 2) {
   });
 }
 
-// for (j = 16; j <= Math.pow(2, 9); j *= 2) {
+// for (let j = 16; j <= Math.pow(2, 9); j *= 2) {
 //     suite.add('fft-' + j, {
 //         onStart: init(j),
 //         fn: (function (N) {
@@ -117,3 +116,5 @@ suite
     console.log(String(event.target));
   })
   .run({ async: false });
+
+/* eslint-env browser */
