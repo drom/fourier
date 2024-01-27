@@ -2,16 +2,16 @@
 
 'use strict';
 
-var template = require('lodash.template'),
-  fs = require('fs'),
-  path = require('path');
+const template = require('lodash.template');
+const fs = require('fs');
+const path = require('path');
 
 fs.readFile(
   path.resolve(__dirname, '../src/fft-template.js'),
   { encoding: 'utf8' },
   function (err, data) {
     if (err) { throw err; }
-    var t = template(data);
+    const t = template(data);
     console.log(t({
       asms: [true, false],
       bases: [2, 3],
