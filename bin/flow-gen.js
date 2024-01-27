@@ -2,15 +2,15 @@
 
 'use strict';
 
-var range = require('lodash.range'),
-  flows = require('../src/flows');
+const range = require('lodash.range');
+const flows = require('../src/flows');
 
 function ops () {
-  var count = 1;
+  let count = 1;
   return {
     binop: function (op) {
       return function (a, b) {
-        var res = 'a' + count;
+        const res = 'a' + count;
         console.log('var ' + res + ' = ' + a + op + b + ';');
         count++;
         return res;
@@ -19,9 +19,9 @@ function ops () {
   };
 }
 
-var g = ops();
+const g = ops();
 
-var std = {
+const std = {
   add: g.binop(' + '),
   sub: g.binop(' - '),
   mul: g.binop(' * ')
