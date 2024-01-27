@@ -2,7 +2,6 @@
 
 'use strict';
 
-const range = require('lodash.range');
 const flows = require('../src/flows');
 
 function ops () {
@@ -30,7 +29,7 @@ const std = {
 // flows(std).radix8(range(8).map(function (e) {
 flows(std)
   .radix4(
-    range(4)
+    [0, 1, 2, 3]
       .map(function (e) {
         return { re: 'x_re' + e, im: 'x_im' + e };
       })

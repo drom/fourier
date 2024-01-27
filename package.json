@@ -22,14 +22,10 @@
     "chai": "^4.4.1",
     "eslint": "^8.56.0",
     "fft.js": "^4.0.3",
-    "lodash": "^4.17.14",
     "lodash.template": "^4.5.0",
     "mocha": "^10.2.0",
     "shift-codegen": "^8.1.0",
     "shift-traverse": "^1.0.1"
-  },
-  "dependencies": {
-    "lodash.range": "^3.2.0"
   },
   "bin": {
     "fourier": "bin/benchmark.js"
